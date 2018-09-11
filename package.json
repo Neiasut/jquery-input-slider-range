@@ -1,9 +1,9 @@
 {
-  "name": "jQuery.inputSliderRange",
+  "name": "jquery-input-slider-range",
   "version": "1.0.0",
   "description": "Plugin for customize input to changeable numeric value element",
   "main": "index.js",
-  "repository": "https://github.com/Neiasut/jQuery.inputSliderRange",
+  "repository": "https://github.com/Neiasut/jquery-input-slider-range",
   "author": "neiasut <kerlaeeda@gmail.com>",
   "license": "MIT",
   "private": false,
