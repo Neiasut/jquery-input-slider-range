@@ -27,7 +27,8 @@
     "webpack-cli": "^3.1.0"
   },
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --mode development --watch --progress"
   },
   "dependencies": {
     "jquery": "^3.3.1"

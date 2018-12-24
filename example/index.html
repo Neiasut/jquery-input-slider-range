@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Example</title>
+    <link rel="stylesheet" href="../dist/main.min.css">
+    <style>
+        .container{
+            max-width: 920px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section>
+            <h2>Test input</h2>
+            <input type="text" id="test">
+        </section>
+    </div>
+    <script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="../dist/jQuery.inputSliderRange.min.js"></script>
+    <script>
+        $('#test').inputSliderRange({
+            "min": 5000,
+            "max": 100000,
+            "start": 3,
+            "grid": false,
+            "step": {
+                "0": 5000,
+                "200000": 50000,
+                "1000000": 500000
+            }
+        })
+    </script>
+</body>
+</html>

@@ -239,15 +239,15 @@
      * @returns {boolean}
      */
     function setTo($element, toCount, percentage = false, important = false, viewChangeOnEnd = true,
-                   runEvents = true, inputTypeScroll = 0){
+                   runEvents = true, inputTypeScroll = 0) {
 
         let config = getConfig($element);
 
-        if ($element.val() === '' || toCount === ''){
+        if ($element.val() === '' || toCount === '') {
             toCount = config.lastInput;
         }
 
-        if (!validateInput(toCount) && $element.val() !== ''){
+        if (!validateInput(toCount) && $element.val() !== '') {
             $element.val(config.current);
             return false;
         }
@@ -282,12 +282,12 @@
             important = true;
         }
 
-        if ((config.currentOld !== toCountTransform.valueRaw) || important ){
+        if ((config.currentOld !== toCountTransform.valueRaw) || important ) {
 
             doProcess();
 
             if (runEvents){
-                if (config.settings.delay < 50){
+                if (config.settings.delay < 50) {
                     runOnChanged(config);
                 } else {
                     clearTimeout(config.timer);
@@ -323,7 +323,7 @@
     }
 
     function getTransformValue(toCount, percentage, min, max, startNumbStepping, step, stepRoundOnInput, inputTypeScroll){
-        if (typeof step === 'object'){
+        if (typeof step === 'object') {
             return transformValueWithProportionSteps(...arguments)
         }
 
@@ -334,9 +334,8 @@
     }
 
     function transformValueWithProportionSteps(toCount, percentage, min, max, startNumbStepping, step,
-                                               stepRoundOnInput, inputTypeScroll, roundSize = 0){
-
-        step = getValidSteps(step, min);
+                                               stepRoundOnInput, inputTypeScroll, roundSize = 0) {
+        step = getValidSteps(step, min, max);
 
         const outputPackage = (percentRaw, valueRaw, percent, value) => ({
             percentRaw,
@@ -352,7 +351,7 @@
 
         if (percentage){
             percent = validatePercent(toCount);
-            rawValue = findRawValueByPercentInLineSegment(percent, startNumbStepping, min, max, step);
+            rawValue = findRawValueByPercentInLineSegment(percent, min, max, step);
         } else {
             rawValue = parseFloat(validateValue(toCount, min, max));
         }
@@ -453,7 +452,7 @@
         return plusPercents + percentCalcInSegment/keysLength;
     };
 
-    const getValidSteps = (steps, start) => {
+    const getValidSteps = (steps, start, end) => {
 
         let rev = [],
             retObject = {};
@@ -465,11 +464,16 @@
                 borderValue = parseFloat(border);
 
             if (borderValue > start){
-                rev.push([border, step]);
+                rev.push([borderValue, step]);
                 return true;
             }
             rev.push([start, step]);
             return false;
+        });
+
+        rev = rev.filter(value => {
+            const [border] = value;
+            return border <= end;
         });
 
         rev.reverse().forEach((arrValue) => {
@@ -498,12 +502,12 @@
         return 100/quantitySegments*numbSegment;
     };
 
-    const findRawValueByPercentInLineSegment = (percent, startCount, start, end, steps) => {
+    const findRawValueByPercentInLineSegment = (percent, start, end, steps) => {
 
-        let valuesSteps = Object.values(steps),
-            numbSegment = checkByPercentNumbLineSegment(percent, valuesSteps.length),
-            percentInLineSegment = getPercentInCurrentLineSegment(percent, numbSegment, valuesSteps.length),
-            bordersSegment = getMaxAndMinCurrentLineSegment(steps, start, end, numbSegment);
+        let valuesStepsLength = Object.values(steps).length;
+        let numbSegment = checkByPercentNumbLineSegment(percent, valuesStepsLength);
+        let percentInLineSegment = getPercentInCurrentLineSegment(percent, numbSegment, valuesStepsLength);
+        let bordersSegment = getMaxAndMinCurrentLineSegment(steps, start, end, numbSegment);
 
         return calcValueInSegment(percentInLineSegment, bordersSegment.min, bordersSegment.max);
     };
